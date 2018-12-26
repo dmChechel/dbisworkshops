@@ -1,0 +1,93 @@
+{% extends 'index.html' %}
+{% block main %}
+        <div>
+            <div class="text-center">
+                <h3>Информация о миграции</h3>
+                    <table width="100%">
+                        <tr>
+                        <th>Идентификатор миграции</th>
+                        <th>Время создания миграции</th>
+                        <th>База данных</th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ migrationRequest.id }}
+                            </td>
+                            <td>
+                                {{ migrationRequest.ts }}
+                            </td>
+                            <td>
+                                {{ migrationRequest.db }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr />
+                <h3>Файлы для миграции</h3>
+                <table width="100%">
+                    <tr>
+                        <th>Ссылка на файл</th>
+                        <th>Время создания файла</th>
+                        <th>Размер файла</th>
+                    </tr>
+                    <tbody>
+                    {% for migrationFile in migrationFiles %}
+                            <tr>
+                                <td>
+                                    {{ migrationFile.link }}
+                                </td>
+                                <td>
+                                    {{ migrationFile.ts }}
+                                </td>
+                                <td>
+                                    {{ migrationFile.size }}
+                                </td>
+                            </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr />
+                <h3>Статусы миграции</h3>
+                <table width="100%">
+                    <tr>
+                        <th>Статус</th>
+                        <th>Время установки статуса</th>
+                    </tr>
+                    <tbody>
+                    {% for migrationStatus in migrationStatuses %}
+                            <tr>
+                                <td>
+                                    {{ migrationStatus.status_name }}
+                                </td>
+                                <td>
+                                    {{ migrationStatus.ts }}
+                                </td>
+                            </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+            <div class="text-center">
+                <form action="http://localhost:5000/addMigrationFile/{{ migrationRequest.id }}" method="POST" enctype="multipart/form-data">
+                    <h3>{{ upload_form.fileInput.label }} </h3>
+                    <div class="pull-left">
+                        <div>
+                            {{ upload_form.fileInput }}
+                        </div>
+                        {% for message in upload_form.fileInput.errors %}
+                            <div> {{ message }} </div>
+                        {% endfor %}
+                        <div> {{ message }} </div>
+                    </div>
+
+                    <input type="submit" class="btn btn-success btn-sm pull-right" value="Загрузить">
+                </form>
+            </div>
+            <hr />
+            <div class="text-center">
+                <a href="/migrate/{{ migrationRequest.id }}" class="btn btn-success">Скачать нереляционную базу</a>
+            </div>
+    </div>
+{% endblock %}

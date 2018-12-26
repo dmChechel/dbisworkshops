@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+{% block main %}
+        <div>
+            <div class="text-center">
+                <table width="100%">
+                    <tr>
+                        <th>ID запроса на миграцию</th>
+                        <th>Время создания запроса</th>
+                        <th>Целевая БД запроса</th>
+                        <th>Статус миграции</th>
+                        <th></th>
+                    </tr>
+                    <tbody>
+                    {% for migrationRequest in migrationsList %}
+                            <tr>
+                                <td>
+                                    {{ migrationRequest.id }}
+                                </td>
+                                <td>
+                                    {{ migrationRequest.dt }}
+                                </td>
+                                <td>
+                                    {{ migrationRequest.db }}
+                                </td>
+                                <td>
+                                    {{ migrationRequest.curr_status }}
+                                </td>
+                                <td>
+                                     <a href="/getMigrationRequest/{{ migrationRequest.id }}">Информация о запросе</a>
+                                </td>
+                            </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr \>
+            <div class="text-center">
+                <div class="text-center">
+                    <h3>{{ create_form.dbName.label }}</h3>
+                    <form action="http://localhost:5000/createMigrationRequest" method="POST">
+                            <div>
+                                {{ create_form.dbName }}
+
+                                {% for message in create_form.dbName.errors %}
+                                    <div> {{ message }} </div>
+                                {% endfor %}
+                            </div>
+
+                            <div> {{ message }} </div>
+
+                        <input type="submit" class="btn btn-success btn-sm" value="{{ create_form.create.name }}">
+                    </form>
+                </div>
+            </div>
+    </div>
+{% endblock %}

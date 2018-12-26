@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="text-center">
+        <h3>Вход</h3>
+        <form action="http://localhost:5000/login" method='POST'>
+
+            {{ form.hidden_tag() }}
+
+            <fieldset>
+                <div>
+                    <div>
+                        {{ form.login.label }}     {{ form.login }}
+
+                        <br>
+                            {% for message in form.login.errors %}
+                                <div> {{ message }} </div>
+                            {% endfor %}
+                        <br>
+                    </div>
+
+                    <div>
+                        {{ form.password.label }}     {{ form.password }}
+
+                        <br>
+                            {% for message in form.password.errors %}
+                                <div> {{ message }} </div>
+                            {% endfor %}
+                        <br>
+                    </div>
+
+                    <div> {{ message }} </div>
+
+                    {{ form.submit }} или
+                    <a href="/registration">Зарегистрироваться</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
